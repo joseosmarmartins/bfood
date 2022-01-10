@@ -2,7 +2,7 @@ import React from "react";
 
 import { Dialog, DialogContent, ImageList, ImageListItem } from "@mui/material";
 
-const DialogImages = ({ images, open, handleClose }) => {
+const DialogImages = ({ restaurant, open, handleClose }) => {
   return (
     <Dialog
       open={open}
@@ -14,8 +14,16 @@ const DialogImages = ({ images, open, handleClose }) => {
           cols={4}
           rowHeight={121}
         >
-          {images.map((item, index) => (
-            <ImageListItem key={item.photo.url} cols={index % 3 == 0 || index % 5 ? 2 : 1} rows={index % 5 == 0 ? 2 : 1}>
+          <ImageListItem key={restaurant.thumb} cols={2} rows={2}>
+            <img
+              src={`${restaurant.thumb}?w=164&h=164&fit=crop&auto=format`}
+              srcSet={`${restaurant.thumb}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt={restaurant.id}
+              loading="lazy"
+            />
+          </ImageListItem>
+          {restaurant.photos.map((item) => (
+            <ImageListItem key={item.photo.url}>
               <img
                 src={`${item.photo.url}?w=164&h=164&fit=crop&auto=format`}
                 srcSet={`${item.photo.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}

@@ -1,10 +1,12 @@
 import React from "react";
 
-import { Table, TableBody, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 
-import { Status, TableHeaderCell, TableRowCell } from "../../style/styles";
+import { Status, TableHeaderCell, TableRowCell, TableSortLabelResult } from "../../style/styles";
 
-const SearchResult = ({ restaurants = [], handleClick, total, page, handleChangePage }) => {
+import money from "../../utils/money";
+
+const SearchResult = ({ restaurants = [], handleClick, total, page, handleChangePage, sort, order, handleSort }) => {
 
   return (
     <>
@@ -12,25 +14,41 @@ const SearchResult = ({ restaurants = [], handleClick, total, page, handleChange
         <Table>
           <TableHead>
             <TableRow>
-              <TableHeaderCell size="small">Nota</TableHeaderCell>
+              <TableHeaderCell size="small">
+                <TableSortLabelResult
+                  active={sort === "rating"}
+                  direction={order}
+                  onClick={() => handleSort("rating")}
+                >
+                  Nota
+                </TableSortLabelResult>
+              </TableHeaderCell>
               <TableHeaderCell size="small">Nome</TableHeaderCell>
-              <TableHeaderCell size="small">Custo médio para 2</TableHeaderCell>
+              <TableHeaderCell size="small">
+                <TableSortLabelResult
+                  active={sort === "cost"}
+                  direction={order}
+                  onClick={() => handleSort("cost")}
+                >
+                  Custo médio para 2
+                </TableSortLabelResult>
+              </TableHeaderCell>
               <TableHeaderCell size="small">Tipo de cozinha</TableHeaderCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {restaurants.map((row, index) => (
               <TableRow key={`item-${index}`}>
-                <Tooltip title={row.restaurant.user_rating.aggregate_rating}>
-                  <TableRowCell size="small" onClick={() => handleClick(row)}>
-                    <Status background={`#${row.restaurant.user_rating.rating_color}`} />
-                  </TableRowCell>
-                </Tooltip>
+                <TableCell size="small">
+                  <Status background={`#${row.restaurant.user_rating.rating_color}`} >
+                    {row.restaurant.user_rating.aggregate_rating}
+                  </Status>
+                </TableCell>
                 <TableRowCell size="small" onClick={() => handleClick(row)}>
                   {row.restaurant.name}
                 </TableRowCell>
                 <TableRowCell size="small" onClick={() => handleClick(row)}>
-                  {`${row.restaurant.currency} ${row.restaurant.average_cost_for_two},00`}
+                  {money(row.restaurant.average_cost_for_two, row.restaurant.currency)}
                 </TableRowCell>
                 <TableRowCell size="small" onClick={() => handleClick(row)}>
                   {row.restaurant.cuisines}
@@ -41,6 +59,7 @@ const SearchResult = ({ restaurants = [], handleClick, total, page, handleChange
         </Table>
       </TableContainer>
       <TablePagination
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
         component="div"
         count={total}
         page={page}

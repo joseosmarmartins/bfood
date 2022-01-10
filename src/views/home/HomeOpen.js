@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Grid, Typography } from "@mui/material";
 
@@ -6,7 +6,32 @@ import { BackgroundHome, BoxHome } from "../../style/styles";
 
 import HomeFilter from "./HomeFilter";
 
-const HomeOpen = ({ onSelectCity }) => {
+import getCities from "../../services/cities";
+
+let timer
+const HomeOpen = ({ onSelectCity, onRequestError }) => {
+
+  const [loadingCities, setLoadingCities] = useState(false);
+
+  const [citiesOptions, setCitiesOptions] = useState([]);
+
+  function fetchCities(query) {
+    if (!query) return;
+
+    clearTimeout(timer);
+    setLoadingCities(true);
+
+    timer = setTimeout(async () => {
+      try {
+        const res = await getCities(query);
+
+        setCitiesOptions(res.data.location_suggestions);
+        setLoadingCities(false);
+      } catch (e) {
+        onRequestError && onRequestError();
+      }
+    }, 800)
+  }
 
   return (
     <BackgroundHome>
@@ -23,7 +48,12 @@ const HomeOpen = ({ onSelectCity }) => {
             </Typography>
           </Grid>
           <Grid item xs={8} md={12} marginTop="3rem">
-            <HomeFilter onSelectCity={onSelectCity} />
+            <HomeFilter
+              onSelectCity={onSelectCity}
+              citiesOptions={citiesOptions}
+              loadingCities={loadingCities}
+              onInputChange={fetchCities}
+            />
           </Grid>
         </Grid>
       </BoxHome>

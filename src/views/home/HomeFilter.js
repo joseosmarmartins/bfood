@@ -1,37 +1,17 @@
 import React, { useState } from "react";
 
-import { Autocomplete, FormControl, TextField } from "@mui/material";
-
-import getCities from "../../services/cities";
+import { Autocomplete, FormControl, TextField, ThemeProvider } from "@mui/material";
 
 import getCityName from "../../utils/cityName"
+import { theme } from "../../style/theme";
 
-let timer;
-const HomeFilter = ({ onSelectCity }) => {
-
-  const [loading, setLoading] = useState(false);
-
-  const [options, setOptions] = useState([]);
+const HomeFilter = ({ onSelectCity, citiesOptions, loadingCities, onInputChange }) => {
 
   const [city, setCity] = useState(null);
 
-  function handleSelect(val) {
+  function handleSelectCity(val) {
     setCity(val);
     onSelectCity && onSelectCity(val);
-  }
-
-  function fetchCities(query) {
-    if (!query) return;
-
-    clearTimeout(timer);
-    setLoading(true);
-
-    timer = setTimeout(() => {
-      getCities(query).then((data) => {
-        setOptions(data);
-        setLoading(false);
-      });
-    }, 800)
   }
 
   return (
@@ -39,21 +19,25 @@ const HomeFilter = ({ onSelectCity }) => {
       <Autocomplete
         getOptionLabel={(option) => typeof option === "string" ? option : getCityName(option)}
         filterOptions={(x) => x}
-        options={options}
+        options={citiesOptions}
         autoComplete
         includeInputInList
         filterSelectedOptions
         value={city}
-        loading={loading}
-        onChange={(_, value) => handleSelect(value)}
+        loading={loadingCities}
+        onChange={(_, value) => handleSelectCity(value)}
         onInputChange={(_, query) => {
-          fetchCities(query);
+          onInputChange(query)
         }}
+        noOptionsText="Sem resultados"
+        loadingText="Carregando..."
         renderInput={(params) => (
-          <TextField {...params}
-            label="Cidade"
-            placeholder="Comece a digitar para buscar..."
-            fullWidth />
+          <ThemeProvider theme={theme}>
+            <TextField {...params}
+              label="Cidade"
+              placeholder="Comece a digitar para buscar..."
+              fullWidth />
+          </ThemeProvider>
         )}
       />
     </FormControl>

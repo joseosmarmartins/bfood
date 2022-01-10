@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Fab, Grid, TableCell } from "@mui/material";
+import { Fab, Grid, TableCell, TableSortLabel } from "@mui/material";
 
 const BackgroundHome = styled.div`
   && {
@@ -43,7 +43,11 @@ const Status = styled.div`
     width: 30px;
     border-radius: 50%;
     height: 30px;
-    background: ${props => props.background || "#ddd"}
+    background: ${props => props.background || "#ddd"};
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    line-height: 30px;
   }
 `;
 
@@ -75,4 +79,10 @@ const ButtonUp = styled(Fab)`
   }
 `;
 
-export { BackgroundHome, BackgroundSearch, BoxHome, BoxSearch, Status, TableHeaderCell, CityName, TableRowCell, ButtonUp };
+const TableSortLabelResult = styled(TableSortLabel)`
+  && {
+    color: rgb(208, 57, 57);
+  }
+`;
+
+export { BackgroundHome, BackgroundSearch, BoxHome, BoxSearch, Status, TableHeaderCell, CityName, TableRowCell, ButtonUp, TableSortLabelResult };
