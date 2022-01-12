@@ -19,7 +19,7 @@ Para as requisições à API foi utilizada a biblioteca do `Axios` para React, p
 E para o build foi utilizada a ferramenta de automatização `Webpack`.
  
 ## Configurando o ambiente
-Para o entendimento de como configurar todo o ambiente para iniciar o desenvolvimento com React pode ser encontrado [aqui](https://pt-br.reactjs.org/docs/getting-started.html).
+Para um rápido tutorial sobre como configurar o ambiente para iniciar o desenvolvimento com React acesse [aqui](https://pt-br.reactjs.org/docs/getting-started.html).
  
 Com o ambiente configurado baixe as dependências do projeto rodando o comando:
 ```
@@ -37,12 +37,6 @@ A aplicação vai se inicializar em [`localhost:8080`](http://localhost:8080).
 ## Desenvolvimento
 A URL base para requisições à API do Zomato está em uma constante no arquivo `api.js` na pasta `services`, assim como o token. Normalmente o token seria recuperado após uma requisição de login, no seu retorno, e assim armazenado em memória na aplicação para uso nas requisições, porém como essa API não requeriu login e o token é estático, ele foi colocado em uma constante também no arquivo `api.js` na pasta `services`.
 
-Para as requisições foi utilizado o token:
-`77576b2dae845bf32c1de0795a7753e1`
-
-E como url base para as requisições foi utilizado a seguinte:
-[https://developers.zomato.com/api/v2.1/](https://developers.zomato.com/api/v2.1/)
-
 ## Deploying
 Para o deploy da aplicação para produção também existe um comando pré-definido nas configurações do `Webpack`, basta digitar o comando:
 ```
@@ -50,6 +44,6 @@ npm run build
 ```
 
 ## Códigos e paradigmas do desenvolvimento
-A praticidade do React, e do uso de *Functional Components* faz com que o desenvolvimento seja rápido e que o código posteriormente seja de fácil manutenção, pois a intenção foi os componentes possuerem responsabilidades únicas para as alterações nos mesmos serem refletidas somente neles, e alterações externas não afetarem o funcionamento individual do componente.
+A praticidade do React, e do uso de *Functional Components* faz com que o desenvolvimento seja rápido e que o código posteriormente seja de fácil manutenção, pois a intenção foi os componentes possuirem responsabilidades únicas para as alterações nos mesmos serem refletidas somente neles, e alterações externas não afetarem o funcionamento individual do componente.
 
-O design da aplicação foi decidido de ser feito em uma *Landing Page* no formato de *Single Page Application*, possuindo uma tela inicial onde é solicitado a cidade do usuário, liberando as demais informações somente após selecionada a cidade, e na tela de resultados foram disponibilizados os restaurantes consultados para a cidade selecionada na primeira parte, e a possibilidade de filtrar por tipos de cozinha, e ordenação por nota ou custo.
+O design da aplicação foi decidido ser feito em uma *Landing Page* no formato de *Single Page Application*, possuindo uma tela inicial onde é solicitado a cidade do usuário, liberando as demais informações somente após selecionada a cidade, e na tela de resultados foram disponibilizados os restaurantes consultados para a cidade selecionada na primeira parte, e a possibilidade de filtrar por tipos de cozinha, e ordenação por nota ou custo.
